@@ -80,10 +80,33 @@ const init = () => {
                     return false;
                 }
             }
+        },
+        {
+            type: 'input',
+            name: 'usage',
+            message: 'What are instructions and/or examples for use? (Required)',
+            validate: usageInput => {
+                if (usageInput) {
+                    return true;
+                }
+                else {
+                    console.log('Please enter instructions!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'confirm',
+            name: 'confirmBadge',
+            message: 'Would you like to include any licesnse/badges?',
+            default: true
+        },
+        {
+            type: 'checkbox',
+            name: 'badge',
+            message: 'Check the licenses/badges you want to include:',
+            choices: ['MIT License','ISC License','GNU General Public License v3.0']
         }
-        //usage
-
-        //license (from generate?)
 
         //contribute (ask for multiples)
 

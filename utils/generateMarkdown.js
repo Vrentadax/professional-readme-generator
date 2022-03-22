@@ -25,6 +25,7 @@ function generateMarkdown(data) {
   ${data.installation}
   ## Usage
   ${data.usage}
+  ![Screenshot](./assets/images/Screenshot.png)
   ##License
   ${data.license}
   ##Contributing

@@ -25,7 +25,11 @@
 
   Run 'node index' from the project root directory and follow prompts.
   
-  ![video](https://drive.google.com/file/d/1ar1irAwURDvgYRGghEt0KGEyDDvM-Mcd/view)
+  
+
+https://user-images.githubusercontent.com/97055456/159809063-a91e7d29-c501-4afe-a04c-98464a27091f.mp4
+
+
 
 
   

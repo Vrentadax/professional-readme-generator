@@ -1,7 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-const fs = require('fs');
-const generateReadme = require('./utils/generateMarkdown');
+const writeFile = require('./utils/createFile.js')
+const generateReadme = require('./utils/generateMarkdown.js');
 
 // TODO: Create a function to initialize app
 const init = () => {
@@ -72,7 +72,7 @@ const init = () => {
             type: 'input',
             name: 'installation',
             message: 'Provide instructions on how to install:',
-            when: ({confirmInstallation}) => {
+            when: ({ confirmInstallation }) => {
                 if (confirmInstallation) {
                     return true;
                 }
@@ -96,26 +96,70 @@ const init = () => {
             }
         },
         {
+            type: 'list',
+            name: 'license',
+            message: 'Which license?',
+            choices: [
+                'Apache 2.0',
+                'GNU GPLv3',
+                'MIT',
+                'Unlicense',
+                'None'
+            ]
+        },
+        {
             type: 'confirm',
-            name: 'confirmBadge',
-            message: 'Would you like to include any licesnse/badges?',
+            name: 'confirmContributing',
+            message: 'Would you like to include instructions on how to contribute?',
             default: true
         },
         {
-            type: 'checkbox',
-            name: 'badge',
-            message: 'Check the licenses/badges you want to include:',
-            choices: ['MIT License','ISC License','GNU General Public License v3.0']
+            type: 'input',
+            name: 'contributing',
+            message: 'How can others contribute?',
+            when: ({ confirmContributing}) => {
+                if (confirmContributing) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'confirm',
+            name: 'confirmTests',
+            message: 'Would you like to include tests for your application?',
+            default: false
+        },
+        {
+            type: 'input',
+            name: 'tests',
+            message: 'What are the tests you would like to include?',
+            when: ({ confirmTests }) => {
+                if (confirmTests) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
         }
 
-        //contribute (ask for multiples)
-
-        //tests
     ])
 };
 
-// TODO: Create a function to write README file
-// const writeToFile(fileName, data) { }
-
 // Function call to initialize app
-init();
+init()
+    .then(readmeData => {
+        return generateMarkdown(readmeData);
+    })
+    .then(pageInfo => {
+        return writeFile(pageInfo);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+});

@@ -24,6 +24,8 @@
   ## Usage
 
   Run 'node index' from the project root directory and follow prompts.
+  
+  ![video](https://drive.google.com/file/d/1ar1irAwURDvgYRGghEt0KGEyDDvM-Mcd/view)
 
 
   

@@ -1,15 +1,22 @@
-// TODO: Include packages needed for this application
+// Include packages needed for this application
 const inquirer = require('inquirer');
 const writeFile = require('./utils/createFile.js')
-const generateReadme = require('./utils/generateMarkdown.js');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
-// TODO: Create a function to initialize app
+// inquirer prompts to gather user data
 const init = () => {
+
+    console.log(`
+    =====================
+     All Fields Required!
+    =====================
+    `)
+
     return inquirer.prompt([
         {
             type: 'input',
             name: 'title',
-            message: 'What is your project name? (Required)',
+            message: 'What is your project name?',
             validate: nameInput => {
                 if (nameInput) {
                     return true;
@@ -23,7 +30,7 @@ const init = () => {
         {
             type: 'input',
             name: 'github',
-            message: 'Enter your GitHub Username (Required)',
+            message: 'Enter your GitHub Username:',
             validate: githubInput => {
                 if (githubInput) {
                     return true;
@@ -37,7 +44,7 @@ const init = () => {
         {
             type: 'input',
             name: 'email',
-            message: 'Enter your email address (Required)',
+            message: 'Enter your email address:',
             validate: emailInput => {
                 if (emailInput) {
                     return true;
@@ -51,7 +58,7 @@ const init = () => {
         {
             type: 'input',
             name: 'description',
-            message: 'Describe your project: (Required)',
+            message: 'Describe your project:',
             validate: descriptionInput => {
                 if (descriptionInput) {
                     return true;
@@ -63,20 +70,15 @@ const init = () => {
             }
         },
         {
-            type: 'confirm',
-            name: 'confirmInstallation',
-            message: 'Would you like to include installation instructions?',
-            default: true
-        },
-        {
             type: 'input',
             name: 'installation',
             message: 'Provide instructions on how to install:',
-            when: ({ confirmInstallation }) => {
-                if (confirmInstallation) {
+            validate: installInput => {
+                if (installInput) {
                     return true;
                 }
                 else {
+                    console.log('Please enter instructions!');
                     return false;
                 }
             }
@@ -84,7 +86,7 @@ const init = () => {
         {
             type: 'input',
             name: 'usage',
-            message: 'What are instructions and/or examples for use? (Required)',
+            message: 'What are instructions and/or examples for use?',
             validate: usageInput => {
                 if (usageInput) {
                     return true;
@@ -98,64 +100,53 @@ const init = () => {
         {
             type: 'list',
             name: 'license',
-            message: 'Which license?',
+            message: 'Pick a license:',
             choices: [
                 'Apache 2.0',
                 'GNU GPLv3',
                 'MIT',
-                'Unlicense',
+                'Unlicensed',
                 'None'
             ]
-        },
-        {
-            type: 'confirm',
-            name: 'confirmContributing',
-            message: 'Would you like to include instructions on how to contribute?',
-            default: true
         },
         {
             type: 'input',
             name: 'contributing',
             message: 'How can others contribute?',
-            when: ({ confirmContributing}) => {
-                if (confirmContributing) {
+            validate: contributeInput => {
+                if (contributeInput) {
                     return true;
                 }
                 else {
+                    console.log('Please enter how others can contribute!');
                     return false;
                 }
             }
-        },
-        {
-            type: 'confirm',
-            name: 'confirmTests',
-            message: 'Would you like to include tests for your application?',
-            default: false
         },
         {
             type: 'input',
             name: 'tests',
             message: 'What are the tests you would like to include?',
-            when: ({ confirmTests }) => {
-                if (confirmTests) {
+            validate: usageInput => {
+                if (usageInput) {
                     return true;
                 }
                 else {
+                    console.log('Please enter how others can test!');
                     return false;
                 }
             }
         }
-
     ])
 };
 
 // Function call to initialize app
 init()
-    .then(readmeData => {
-        return generateMarkdown(readmeData);
+    .then(readmeInfo => {
+        return generateMarkdown(readmeInfo);
     })
-    .then(pageInfo => {
-        return writeFile(pageInfo);
+    .then(pageText => {
+        return writeFile(pageText);
     })
     .then(writeFileResponse => {
         console.log(writeFileResponse);
